@@ -8,6 +8,9 @@ module processador(
 
 );
 
+
+//os testes estão funcionando de forma perfeita. (talvez eu adicione uma função para fazer multiplicação de forma nativa).
+
 //=======================================================================
 //=======================================================================
 //aqui abaxo devem ficar todas as partes od processador já instanciadas:

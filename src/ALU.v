@@ -4,7 +4,11 @@
 module alu (
     input wire [31:0] SrcA,
     input wire [31:0] SrcB,
+
+    //aqui deve ser atualizado, como eu vou fazer mais operações de ULA, deverá ser atualizado para mais bits.
     input wire [2:0] ALUControl, // apenas 3 bits para bater com o UnitControl
+
+
     output reg [31:0] ALUResult,
     output wire Zero
 );

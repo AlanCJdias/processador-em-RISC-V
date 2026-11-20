@@ -3,7 +3,12 @@ module aluControl(
     input wire op,               // bit 5 do opcode (instr[5])
     input wire [2:0] funct3,     // instr[14:12]
     input wire funct7b,          // bit 5 do funct7 (instr[30])
+
+    //essa saída deverá ser alterada para conseguir suportar multiplicações e divisões.
+    //terá que ter mais bits.
     output reg [2:0] aluControl  // saída de 3 bits para a ALU
+
+
 );
 
     wire [1:0] licacao = {op, funct7b}; // ponto e vírgula adicionado
