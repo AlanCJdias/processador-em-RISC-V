@@ -7,7 +7,11 @@ module mainDecoder(
     output reg memWrite,
     output reg [1:0] resultSrc, // ajustado para 2 bits com o livro (para suportar o jal)
     output reg branch,
-    output reg [1:0] aluOP,     // essa parte daqui será a responsável por fazer a outra parte do decodificador funcionar
+
+    //talvez eu tenha que modificar isso daqui também, não sei ainda.
+    output reg [1:0] aluOP,     
+    // essa parte daqui será a responsável por fazer a outra parte do decodificador funcionar
+    
     output reg jump
 );
 
@@ -80,6 +84,7 @@ always @(*) begin
             jump      = 1'b1;
         end
         // Caso padrão só pra segurança do hardware
+        //só para caso a instrução que eu passei não exista (não é compatível).
         default: begin
             regWrite  = 1'b0;
             immSrc    = 2'b00;

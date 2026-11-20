@@ -12,6 +12,7 @@ module UnitControl(
     //tem muitas saídas.
     //saídas:
 
+    //aqui eu vou ter que modificar também;
     output wire [2:0] aluControl,
     output wire RegWrite,
     output wire [1:0] immSrc,
@@ -24,6 +25,7 @@ module UnitControl(
 
 //variáveis para serem ligadas depois:
 
+//aqui eu vou ter que modificar também (provavelmente).
 wire [1:0] ALUOP;
 wire b;
 wire j;
