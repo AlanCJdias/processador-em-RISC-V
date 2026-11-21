@@ -40,6 +40,7 @@ always @(*) begin
             jump      = 1'b0;
         end
         // R-type
+        //todas as instruçoes do tipo M possuem o mesmo op code.
         7'b0110011: begin
             regWrite  = 1'b1;
             immSrc    = 2'bxx;
