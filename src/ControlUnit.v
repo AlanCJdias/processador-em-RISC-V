@@ -9,6 +9,11 @@ module UnitControl(
     input wire zero,
     input wire funct7, //recebe apenas um bit dessa função.
 
+    //vai ter mais uma entrada.
+
+    input wire funct7m, //essa entra irá servir apenas para diferenciar de quandoe u precisarei usar a extensão m.
+    //vai ser o bit 25.
+
     //tem muitas saídas.
     //saídas:
 
@@ -19,7 +24,11 @@ module UnitControl(
     output wire ALUSRC,
     output wire MemWrite,
     output wire [1:0] ResultSrc,
-    output wire PCSrc
+    output wire PCSrc,
+
+    //adição de mais uma saída: 
+
+    output wire resultadodoMux //com base nesse sinal ele vai falar se vai usar multiplicação ou a ALU normal.'
 
 );
 
@@ -43,10 +52,13 @@ mainDecoder decoderPrincipal(
     .resultSrc(ResultSrc),
     .branch(b),//tem que fazer um wire para esse.
     .aluOP(ALUOP), //tem que fazer um wire para esse.    
-    .jump(j) //tem que fazer um wire para esse.
+    .jump(j), //tem que fazer um wire para esse.
+    .funct7(funct7m), //aqui é a nova entrada.
+    .resultadoMux(resultadodoMux)
 
 );
 
+//não é necessário mexer no controle da ALU.
 aluControl AluCOntrolPrincipal(
 
     .aluop(ALUOP),
