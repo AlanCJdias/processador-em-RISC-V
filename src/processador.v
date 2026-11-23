@@ -86,6 +86,9 @@ wire [1:0] tipoExtensao;
 wire [1:0] resultSrcControle;
 
 //tenho que ter cuidado com os nomes aqui.
+
+//vou ter que trocar os sinais daqui.
+
 UnitControl unidade_Controle(
 
     //aqui são as entradas:
@@ -96,6 +99,8 @@ UnitControl unidade_Controle(
     .funct3(instru[14:12]),
     .zero(AluSaidaZero), //aqui vem da Alu.
     .funct7(instru[30]),
+    .funct7m(instru[25]), //aqui está uma parte importante para a implementação da extensão M.
+    .resultadodoMux(entradaMuxMult) //como é apenas um bit, não precisa declarar wire.
 
     //aqui ficam as saídas:
 
@@ -193,6 +198,36 @@ alu alu_instanciada(
 
 );
 
+//aqui abaico ficará uma instanciação do módulo de multilicação;
+
+wire [31:0] saidaMultiplicador; //apenas para "salvar" o resultado do multiplicador.
+
+multiplicador multiplicador_Instanciado(
+
+    //entradas:
+
+    .rd1(rd1),
+    .rd2(rd2),
+    .funct3(instru[14:12]),//aqui que ele vai selecionar qual é o tipo da instrução.
+
+    //saída: 
+    .resultado(saidaMultiplicador)
+);
+
+//aqui também ficará a uma instancia do multiplexador que irá ditar qual é a saída, se é da ALU ou do módulo da multiplicação.
+
+wire [31:0] saidaMultiplexadorMult;
+
+muxresultado muxMultiplicacao(
+
+    .resultadoALU(resultadoAlu),
+    .resultadoMULT(saidaMultiplicador),
+    .ConUnitMult(entradaMuxMult), //aqui ficará o seletor.
+
+    //saídas:
+    .saida(saidaMultiplexadorMult) //a partir de agora, irei usar esse.
+);
+
 //=======================================================================
 //aqui ficará o pctarget:
 //=======================================================================
@@ -224,7 +259,7 @@ dmem memoria(
 
     .clk(clk), //clock de funcionamento.
     .memwrite(mwrite), //aqui é da unidade de controle.
-    .addr(resultadoAlu), //resultado da ALU
+    .addr(saidaMultiplexadorMult), //resultado da ALU
     .writedata(rd2), //dado a ser inscrito.
 
     //saidas:
@@ -242,7 +277,7 @@ muxFinal ultumoMUltiplexador(
     //entradas:
 
     .DataMemory(dadoBuscado),
-    .resultadoAlu(resultadoAlu),
+    .resultadoAlu(saidaMultiplexadorMult),
     .pcPlus4(saidapcPlus4),
     .ResultSrc(resultSrcControle),
 
