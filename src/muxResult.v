@@ -1,4 +1,5 @@
-//aqui ficará o multiplexador do resultado
+//aqui ficará o multiplexador do resultado.
+//esse é o novo multiplexador que foi implementado.
 
 module muxresultado(
 
