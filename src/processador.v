@@ -30,6 +30,10 @@ mux2pc multiplexadorpc(
 
     .pcp4(saidapcPlus4), //nome bem autoexplicativo.
     .pcTarget(pctargetSaida), //nome bem autoexplicativo.
+
+    //vou usar ese daqui só para parecer mais descolado (emoje oculós escuro).
+    .saidaAlu(saidaMultiplexadorMult),//aqui fica a saida da ALU.
+
     .pcSrc(saidaPCSc),//não declarei ainda. nome será esse
     .saida(pcnovo)
 
@@ -84,10 +88,12 @@ pcPlus4 instanciapcPlus4(
 wire [2:0] aluopcode;
 wire [1:0] tipoExtensao;
 wire [1:0] resultSrcControle;
+wire [1:0] saidaPCSc; //aqui fica a atualização que eu tive que fazer para incrementar o jalr.
 
 //tenho que ter cuidado com os nomes aqui.
 
 //vou ter que trocar os sinais daqui.
+
 
 UnitControl unidade_Controle(
 
@@ -100,10 +106,11 @@ UnitControl unidade_Controle(
     .zero(AluSaidaZero), //aqui vem da Alu.
     .funct7(instru[30]),
     .funct7m(instru[25]), //aqui está uma parte importante para a implementação da extensão M.
-    .resultadodoMux(entradaMuxMult) //como é apenas um bit, não precisa declarar wire.
+    
 
     //aqui ficam as saídas:
 
+    .resultadodoMux(entradaMuxMult), //como é apenas um bit, não precisa declarar wire.
     .aluControl(aluopcode), //aqui são 3 bits
     .RegWrite(regwrite), //apenas mum bit, não preciso criar um wire.
     .immSrc(tipoExtensao), //aqui são 2 bits

@@ -34,7 +34,7 @@ module UnitControl(
 
 //variáveis para serem ligadas depois:
 
-//aqui eu vou ter que modificar também (provavelmente).
+wire [1:0] j;
 wire [1:0] ALUOP;
 wire b;
 wire j;
@@ -68,7 +68,9 @@ aluControl AluCOntrolPrincipal(
     .aluControl(aluControl)//aqui é a saída que me interessa para a alu.
 );
 
-assign PCSrc = (b & zero) | j ;
+assign pcSrc = (j == 2'b10) ? 2'b10 :// aqui ele vai fazer um jalr
+               ((j == 2'b01) || (b & zero)) ? 2'b01 : // pega o pctarget
+               2'b00;//pega o normal, pc + 4.
 
 
 //aqui deve ter a instancia dos dois módulos e a parte para branch que ve de onde irá sair o pc novo.

@@ -3,15 +3,22 @@
 //são apenas dois registradores, vou fazer um para cada.
 
 module mux2pc (
+
     input  wire [31:0] pcp4,
     input  wire [31:0] pcTarget,
-    input  wire        pcSrc,     // 0 -> pcp4, 1 -> pcTarget
-    output wire [31:0] saida
+    input  wire [31:0] saidaAlu, //aqui está a alteração para fazer a jalr.
+    input  wire [1:0] pcSrc,     // 0 -> pcp4, 1 -> pcTarget
+    output reg [31:0] saida
+
 );
 
-    // Se pcSrc for 1, escolhe pcTarget; se for 0, escolhe pcp4
-    // é só uma atribuição simples.
-
-    assign saida = pcSrc ? pcTarget : pcp4;
+always @(*) begin
+    case (pcSrc)
+        2'b00: saida = pcp4;
+        2'b01: saida = pcTarget;
+        2'b10: saida = {saidaAlu[31:1], 1'b0}; //aqui tem uma bosta que ele desconsidera o ultimo bit.
+        default: saida = 32'd0; //vai tratar tudo igual a 0.
+    endcase    
+end
 
 endmodule

@@ -19,8 +19,12 @@ module mainDecoder(
     output reg resultadoMux, //aqui será a parte que será responsável por selecionar o resultado do multiplexador.
     //quando for 1 ele vai para a multiplicação.
     
-    output reg jump
+    output reg [1:0] jump //eu ia alterar mais coisas, só que isso daqui já basta.
+
 );
+
+//percebi que meu processador não está realizando funções jalr.
+//o opcode dela é : 1100111;
 
 always @(*) begin
     case(opcode) // aqui ele vai atribuir os valores certos com base no op code.
@@ -33,7 +37,7 @@ always @(*) begin
             resultSrc = 2'b01;
             branch    = 1'b0;
             aluOP     = 2'b00;
-            jump      = 1'b0;
+            jump      = 2'b00;
             resultadoMux = 1'b0;
         end
         // sw
@@ -45,7 +49,7 @@ always @(*) begin
             resultSrc = 2'bxx;
             branch    = 1'b0;
             aluOP     = 2'b00;
-            jump      = 1'b0;
+            jump      = 2'b00;
             resultadoMux = 1'b0;
         end
         // R-type
@@ -58,7 +62,7 @@ always @(*) begin
             resultSrc = 2'b00;
             branch    = 1'b0;
             aluOP     = 2'b10;
-            jump      = 1'b0;
+            jump      = 2'b00;
             if( funct7 == 1'b0 )begin
                 resultadoMux = 1'b0;
             end else begin
@@ -74,7 +78,7 @@ always @(*) begin
             resultSrc = 2'bxx;
             branch    = 1'b1;
             aluOP     = 2'b01;
-            jump      = 1'b0;
+            jump      = 2'b00;
             resultadoMux = 1'b0;
         end
         // I-type ALU
@@ -86,7 +90,7 @@ always @(*) begin
             resultSrc = 2'b00;
             branch    = 1'b0;
             aluOP     = 2'b10;
-            jump      = 1'b0;
+            jump      = 2'b00;
             resultadoMux = 1'b0;
         end
         // jal
@@ -98,7 +102,23 @@ always @(*) begin
             resultSrc = 2'b10;
             branch    = 1'b0;
             aluOP     = 2'bxx;
-            jump      = 1'b1;
+            jump      = 2'b01;
+            resultadoMux = 1'b0;
+        end
+
+        //ainda vou ver o que mais é necessário mudar. 
+
+        // jalr
+
+        7'b1100111:begin
+            regWrite  = 1'b1;
+            immSrc    = 2'b11;
+            aluSrc    = 1'bx;
+            memWrite  = 1'b0;
+            resultSrc = 2'b10;
+            branch    = 1'b0;
+            aluOP     = 2'bxx;
+            jump      = 2'b10; //é nessa horas que entra a parte que vai decidir de onde irá vir o endereço do pc.
             resultadoMux = 1'b0;
         end
         // Caso padrão só pra segurança do hardware
@@ -111,7 +131,7 @@ always @(*) begin
             resultSrc = 2'b00;
             branch    = 1'b0;
             aluOP     = 2'b00;
-            jump      = 1'b0;
+            jump      = 2'b00;
             resultadoMux = 1'b0;
         end
     endcase
