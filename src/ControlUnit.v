@@ -24,7 +24,7 @@ module UnitControl(
     output wire ALUSRC,
     output wire MemWrite,
     output wire [1:0] ResultSrc,
-    output wire PCSrc,
+    output wire [1:0] PCSrc,//aqui também deve ser alterado.
 
     //adição de mais uma saída: 
 
@@ -37,7 +37,6 @@ module UnitControl(
 wire [1:0] j;
 wire [1:0] ALUOP;
 wire b;
-wire j;
 
 //módulos instanciados:
 
@@ -68,7 +67,7 @@ aluControl AluCOntrolPrincipal(
     .aluControl(aluControl)//aqui é a saída que me interessa para a alu.
 );
 
-assign pcSrc = (j == 2'b10) ? 2'b10 :// aqui ele vai fazer um jalr
+assign PCSrc = (j == 2'b10) ? 2'b10 :// aqui ele vai fazer um jalr
                ((j == 2'b01) || (b & zero)) ? 2'b01 : // pega o pctarget
                2'b00;//pega o normal, pc + 4.
 

@@ -3,7 +3,7 @@
 // Memoria de instrucoes (ROM). Carregada a partir de um arquivo .hex via
 module instr_mem #(
     parameter MEM_WORDS = 1024,
-    parameter INIT_FILE = "firmware.hex"//aqui que via ficar o arquivo das instruções.
+    parameter INIT_FILE = "src/firmware.hex"//aqui que via ficar o arquivo das instruções.
 ) (
     input wire [31:0]  addr, //aqui fica o pc
     output wire [31:0] instr //aqui vai ficar a instrucao.

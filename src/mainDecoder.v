@@ -110,17 +110,18 @@ always @(*) begin
 
         // jalr
 
-        7'b1100111:begin
-            regWrite  = 1'b1;
-            immSrc    = 2'b11;
-            aluSrc    = 1'bx;
-            memWrite  = 1'b0;
-            resultSrc = 2'b10;
-            branch    = 1'b0;
-            aluOP     = 2'bxx;
-            jump      = 2'b10; //é nessa horas que entra a parte que vai decidir de onde irá vir o endereço do pc.
+        7'b1100111: begin
+            regWrite     = 1'b1;
+            immSrc       = 2'b00;
+            aluSrc       = 1'b1;
+            memWrite     = 1'b0;
+            resultSrc    = 2'b10;
+            branch       = 1'b0;
+            aluOP        = 2'b00;
+            jump         = 2'b10;
             resultadoMux = 1'b0;
         end
+
         // Caso padrão só pra segurança do hardware
         //só para caso a instrução que eu passei não exista (não é compatível).
         default: begin

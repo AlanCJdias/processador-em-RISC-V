@@ -21,7 +21,10 @@ wire signed [31:0] rds1 = rd1;
 wire signed [31:0] rds2 = rd2;
 
 //dependendo de como for o funct 3 eu uso a parte com sinal ou não.
-wire [63:0] auxiliar;
+
+//aqui tem que ser reg, animal.
+reg [63:0] auxiliar; 
+
 //só fazer um case.
 
 always @(*) begin
@@ -54,8 +57,8 @@ always @(*) begin
 
             if (rd2 == 32'd0) begin
                 resultado = -32'd1;//retor
-            end else if (rds2 == -32'd1 && rds1 == 32'b10000000 00000000 00000000 00000000) begin //aqui vai começar o overflow.
-                resultado = 32'b10000000 00000000 00000000 00000000;
+            end else if (rds2 == -32'd1 && rds1 == 32'b10000000000000000000000000000000) begin //aqui vai começar o overflow.
+                resultado = 32'b10000000000000000000000000000000;
             end else begin
                 resultado = rds1 / rds2;
             end
@@ -75,8 +78,8 @@ always @(*) begin
         3'b110: begin
             if (rd2 == 32'b0) begin
                 resultado = rd1;
-            end else if(rds2 == -32'd1 && rds1 == 32'b10000000 00000000 00000000 00000000) begin //aqui causa overflow;
-                resultado = 32'b10000000 00000000 00000000 00000000;
+            end else if(rds2 == -32'd1 && rds1 == 32'b10000000000000000000000000000000) begin //aqui causa overflow;
+                resultado = 32'b10000000000000000000000000000000;
             end else begin
                 resultado = rds1 % rds2;
             end
